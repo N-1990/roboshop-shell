@@ -51,10 +51,10 @@ systemctl start rabbitmq-server &>> $LOGFILE
 
 VALIDATE $? "start rabbitmq server"
 
-rabbitmqctl -o add_user roboshop roboshop123 &>> $LOGFILE
+rabbitmqctl add_user roboshop roboshop123 &>> $LOGFILE
 
 VALIDATE $? "creating user"
 
 rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*" &>> $LOGFILE
 
-VALIDATE $? "setting permission"
+VALIDATE $? "setting permission
