@@ -51,7 +51,7 @@ systemctl start rabbitmq-server &>> $LOGFILE
 
 VALIDATE $? "start rabbitmq server"
 
-rabbitmqctl add_user roboshop roboshop123 &>> $LOGFILE
+rabbitmqctl -o add_user roboshop roboshop123 &>> $LOGFILE
 
 VALIDATE $? "creating user"
 
