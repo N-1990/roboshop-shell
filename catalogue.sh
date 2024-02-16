@@ -46,11 +46,18 @@ dnf install nodejs -y &>> $LOGFILE
 
 VALIDATE $? "nodejs installing"
 
-useradd roboshop &>> $LOGFILE
+id roboshop
+if [ $? -ne 0 ]
+then
+    useradd roboshop
+    VALIDATE $? "roboshop user creation"
+else
+    echo -e "roboshop user alreaday exist .. $Y SKIP $N"
+fi
 
 VALIDATE $? "roboshop user adding"
 
-mkdir /app  &>> $LOGFILE
+mkdir -p /app  &>> $LOGFILE
 
 VALIDATE $? " creating app directery"
 
@@ -62,7 +69,7 @@ cd /app
 
 VALIDATE $? " change app directery"
 
-unzip /tmp/catalogue.zip  &>> $LOGFILE
+unzip -o /tmp/catalogue.zip  &>> $LOGFILE    #"-o" means over ride the file 
 
 VALIDATE $? "unzip catalogue application"
 
