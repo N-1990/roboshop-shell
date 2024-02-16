@@ -54,7 +54,7 @@ VALIDATE $? "downloding shipping"
 
 cd /app
 
-unzip /tmp/shipping.zip &>> $LOGFILE
+unzip -o /tmp/shipping.zip &>> $LOGFILE
 
 VALIDATE $? "unzip shipping"
 
