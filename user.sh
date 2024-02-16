@@ -59,46 +59,44 @@ mkdir -p /app  &>> $LOGFILE
 
 VALIDATE $? " creating app directery"
 
-curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip  &>> $LOGFILE
+curl -L -o /tmp/user.zip https://roboshop-builds.s3.amazonaws.com/user.zip &>> $LOGFILE
 
-VALIDATE $? "downlode the cartalogue application"
+VALIDATE $? "downloding user application"
 
 cd /app 
 
-VALIDATE $? " change app directery"
+unzip -o /tmp/user.zip &>> $LOGFILE
 
-unzip -o /tmp/catalogue.zip  &>> $LOGFILE    #"-o" means over ride the file 
+VALIDATE $? "unzip user application"
 
-VALIDATE $? "unzip catalogue application"
-
-npm install &>> $LOGFILE
+npm install  &>> $LOGFILE
 
 VALIDATE $? "installing dependencies"
 
-cp /home/centos/roboshop-shell/catalogue.service /etc/systemd/system/catalogue.service  &>> $LOGFILE
+cp /home/centos/roboshop-shell/user.service /etc/systemd/system/user.service 
 
-VALIDATE $? "coping catalogue.service file "
+VALIDATE $? "coping user service file"
 
 systemctl daemon-reload &>> $LOGFILE
 
-VALIDATE $? "daemon reload catalogue"
+VALIDATE $? "user daemon reload"
 
-systemctl enable catalogue &>> $LOGFILE
+systemctl enable user &>> $LOGFILE
 
-VALIDATE $? "enable catalogue"
+VALIDATE $? "enable user"
 
-systemctl start catalogue &>> $LOGFILE
+systemctl start user &>> $LOGFILE
 
-VALIDATE $? "starting catalogue"
+VALIDATE $? "start user"
 
-cp /home/centos/roboshop-shell/mongo.repo /etc/yum.repos.d/mongo.repo  &>> $LOGFILE
+cp /home/centos/roboshop-shell/mongo.repo /etc/yum.repos.d/mongo.repo
 
-VALIDATE $? "coping mongorepo"
+VALIDATE $? "copying mongodb repo"
 
 dnf install mongodb-org-shell -y  &>> $LOGFILE
 
-VALIDATE $? "installing mongodb org shell"
+VALIDATE $? "installing mongodb client"
 
-mongo --host $MONGODB_HOST </app/schema/catalogue.js &>> $LOGFILE
+mongo --host $MONGODB_HOST </app/schema/user.js &>> $LOGFILE
 
-VALIDATE $? "loding mongodb data in to catalogue "
+VALIDATE $? "loding user data into mongodb"
